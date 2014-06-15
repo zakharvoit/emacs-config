@@ -1,0 +1,3 @@
+[submodule "desert-theme"]
+	path = desert-theme
+	url = https://github.com/rexim/desert-theme
