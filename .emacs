@@ -22,10 +22,9 @@
   (defvar skippable-buffers '("*Messages*" "*scratch*" "*Help*"))
   (evil-config)
   (hl-line-setup)
-  (global-linum-mode)
-  (require 'linum-relative)
+  (linum-config)
   (menu-bar-mode -1)
-  (scroll-bar-mode -1)
+  (when window-system (scroll-bar-mode -1))
   (tool-bar-mode -1)
   (blink-cursor-mode 0)
   (longlines-mode)
@@ -34,6 +33,23 @@
   (setq tab-always-indent 'initials)
   (setq make-backup-files nil)
   (kbd-config)
+  )
+
+(defun max-line-number-width ()
+  (length (number-to-string (count-lines (point-min) (point-max))))
+  )
+
+(defun linum-config ()
+  (global-linum-mode)
+  (require 'linum-relative)
+  (add-hook 'linum-before-numbering-hook
+            (lambda ()
+              (defvar linum-format)
+              (setq linum-format (concat "%"
+                                         (number-to-string (max-line-number-width))
+                                         "d "))
+              )
+            )
   )
 
 (defun kbd-config ()
